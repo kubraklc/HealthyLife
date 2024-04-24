@@ -2,12 +2,14 @@ package com.example.healthylife.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import com.example.healthylife.R
 import com.example.healthylife.databinding.ActivityMainBinding
 import com.example.healthylife.fragment.*
 import com.example.healthylife.ui.detail.RecipeFragment
 import com.example.healthylife.ui.home.HomeFragment
+import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,5 +42,10 @@ class MainActivity : AppCompatActivity() {
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.commit()
+    }
+
+    private fun Test()
+    {
+        Log.d("TEST", "TEST")
     }
 }
