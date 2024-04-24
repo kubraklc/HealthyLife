@@ -44,8 +44,4 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
-    private fun Test()
-    {
-        Log.d("TEST", "TEST")
-    }
 }
