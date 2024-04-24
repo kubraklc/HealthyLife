@@ -39,7 +39,5 @@ class LoginActivity : AppCompatActivity() {
 
 
     }
-    private fun Deneme() {
 
-    }
 }
