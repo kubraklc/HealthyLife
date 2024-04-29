@@ -1,16 +1,11 @@
 package com.example.healthylife.ui.detail
 
-import android.annotation.SuppressLint
-import android.content.Intent
-import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import android.provider.ContactsContract.CommonDataKinds.Im
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -23,6 +18,7 @@ import com.example.healthylife.ui.home.HomeFragment.Companion.MEAL_INSTRUCTION
 import com.example.healthylife.ui.home.HomeFragment.Companion.MEAL_NAME
 import com.example.healthylife.ui.home.HomeFragment.Companion.MEAL_THUMB
 
+@Suppress("DEPRECATION")
 class RecipeFragment : Fragment() {
 
     private var _binding: FragmentRecipeBinding? = null
@@ -35,13 +31,16 @@ class RecipeFragment : Fragment() {
         _binding = FragmentRecipeBinding.inflate(inflater, container, false)
         val view = binding.root
         binding.imageFavorite.setOnClickListener {
-            Toast.makeText(requireContext(),"Favorilere Eklendi", Toast.LENGTH_LONG).show()
-            view.setBackgroundColor(Color.LTGRAY)
+           val toastView = inflater.inflate(R.layout.new_toast_message, null)
+           toastView.findViewById<TextView>(R.id.toastText).text = "Favorilere Eklendi"
+           toastView.findViewById<ImageView>(R.id.toastText)
+           val toast = Toast(requireContext())
+           toast.duration = Toast.LENGTH_LONG
+           toast.view = toastView
+           toast.show()
         }
        return view
     }
-
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,64 +76,60 @@ class RecipeFragment : Fragment() {
         }
     }
 
-
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-
-
 }
 
 
-        /*
-                mealName = _binding?.descTitle.toString()
-                val recipeHomeViewModel = ViewModelProvider(this).get(RecipeHomeViewModel::class.java)
-                recipeHomeViewModel.getRecipeMeal(mealName)
+/*
+        mealName = _binding?.descTitle.toString()
+        val recipeHomeViewModel = ViewModelProvider(this).get(RecipeHomeViewModel::class.java)
+        recipeHomeViewModel.getRecipeMeal(mealName)
 
-                //  onYoutubeClick()
-             //   observeRecipeDetailLiveData()  // burası filter olcak sonra
+        //  onYoutubeClick()
+     //   observeRecipeDetailLiveData()  // burası filter olcak sonra
+    }
+
+ private fun onYoutubeClick() {
+        // YouTube linkini göster
+        binding..setOnClickListener {
+            if (!youtubeLink.isNullOrBlank()) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(youtubeLink))
+                startActivity(intent)
+            } else {
+                // YouTube linki boşsa veya null ise kullanıcıya bir uyarı verilebilir.
+                Toast.makeText(requireContext(), "YouTube link not available", Toast.LENGTH_SHORT).show()
             }
-
-         private fun onYoutubeClick() {
-                // YouTube linkini göster
-                binding..setOnClickListener {
-                    if (!youtubeLink.isNullOrBlank()) {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(youtubeLink))
-                        startActivity(intent)
-                    } else {
-                        // YouTube linki boşsa veya null ise kullanıcıya bir uyarı verilebilir.
-                        Toast.makeText(requireContext(), "YouTube link not available", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-
-
-
-
-            private fun observeRecipeDetailLiveData() {
-                recipeHomeViewModel.observeRecipeDetailLiveData(mealName)
-                    .observe(viewLifecycleOwner, Observer { recipeDetail ->
-                        // Yemek detayları LiveData'dan alındığında yapılacak işlemler
-                        updateUIWithRecipeDetail(recipeDetail)
-                    })
-            }
-
-    @SuppressLint("ResourceType")
-    private fun updateUIWithRecipeDetail(recipeDetail: MealList.Meal) {
-        binding?.apply {
-            descMealId.text = "Meal ID: ${recipeDetail.idMeal}"
-            descTitle.text = recipeDetail.strMeal
-            categoryInstruction.text = recipeDetail.strInstructions
-            categoryInfo.text = ":${recipeDetail.strCategory}"
-
-            Glide.with(this@RecipeFragment)
-                .load(recipeDetail.strMealThumb)
-                .into(descimgView)
         }
-           */
+    }
+
+
+
+
+    private fun observeRecipeDetailLiveData() {
+        recipeHomeViewModel.observeRecipeDetailLiveData(mealName)
+            .observe(viewLifecycleOwner, Observer { recipeDetail ->
+                // Yemek detayları LiveData'dan alındığında yapılacak işlemler
+                updateUIWithRecipeDetail(recipeDetail)
+            })
+    }
+
+@SuppressLint("ResourceType")
+private fun updateUIWithRecipeDetail(recipeDetail: MealList.Meal) {
+binding?.apply {
+    descMealId.text = "Meal ID: ${recipeDetail.idMeal}"
+    descTitle.text = recipeDetail.strMeal
+    categoryInstruction.text = recipeDetail.strInstructions
+    categoryInfo.text = ":${recipeDetail.strCategory}"
+
+    Glide.with(this@RecipeFragment)
+        .load(recipeDetail.strMealThumb)
+        .into(descimgView)
+}
+   */
 
 
 
