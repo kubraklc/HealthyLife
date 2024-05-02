@@ -1,8 +1,6 @@
 package com.example.healthylife.model
 
-import android.os.Bundle
 import androidx.room.Entity
-import com.example.healthylife.ui.detail.RecipeFragment
 
 data class MealList(
     val meals: List<Meal>

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.example.healthylife.R
 import com.example.healthylife.databinding.ActivityMainBinding
 import com.example.healthylife.fragment.*
+import com.example.healthylife.ui.favorite.FavoriteFragment
 
 import com.example.healthylife.ui.home.HomeFragment
 

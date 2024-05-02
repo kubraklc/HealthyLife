@@ -1,17 +1,19 @@
 package com.example.healthylife.ui.detail
 
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Im
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.example.healthylife.R
 import com.example.healthylife.databinding.FragmentRecipeBinding
+import com.example.healthylife.model.Meal
+import com.example.healthylife.ui.favorite.FavoriteViewModel
 import com.example.healthylife.ui.home.HomeFragment.Companion.CATEGORY_NAME
 import com.example.healthylife.ui.home.HomeFragment.Companion.MEAL_ID
 import com.example.healthylife.ui.home.HomeFragment.Companion.MEAL_INSTRUCTION
@@ -23,6 +25,8 @@ class RecipeFragment : Fragment() {
 
     private var _binding: FragmentRecipeBinding? = null
     private val binding get() = _binding!!
+    private  val  favoriteViewModel: FavoriteViewModel by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +42,11 @@ class RecipeFragment : Fragment() {
            toast.duration = Toast.LENGTH_LONG
            toast.view = toastView
            toast.show()
+
+          favoriteViewModel.fetchMeals()
+            favoriteViewModel.addMeal(meal = Meal(strMeal = String(), strMealThumb = String()))
+
+
         }
        return view
     }

@@ -118,8 +118,6 @@ class HomeFragment : Fragment() {
                            .addToBackStack(null)
                            .commit()
 
-
-
                    }else Log.e("No meal", "random recipe null")
                }
            }
@@ -147,7 +145,7 @@ class HomeFragment : Fragment() {
       adapter2 = MostPopularAdapter(
           meals = emptyList(), // Başlangıçta boş bir liste
           clickListener = { clickedMeal ->
-              // Tıklanıldığında yapılacak işlemleri burada tanımlayabilirsiniz.
+              // Tıklanıldığında yapılacak işlemleri burada tanımlayabiliriz.
           }
       )
 
