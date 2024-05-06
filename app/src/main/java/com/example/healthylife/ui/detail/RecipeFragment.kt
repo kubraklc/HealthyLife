@@ -9,10 +9,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.healthylife.R
 import com.example.healthylife.databinding.FragmentRecipeBinding
 import com.example.healthylife.model.Meal
+import com.example.healthylife.ui.favorite.FavoriteAdapter
+import com.example.healthylife.ui.favorite.FavoriteFragment
 import com.example.healthylife.ui.favorite.FavoriteViewModel
 import com.example.healthylife.ui.home.HomeFragment.Companion.CATEGORY_NAME
 import com.example.healthylife.ui.home.HomeFragment.Companion.MEAL_ID
@@ -25,7 +29,14 @@ class RecipeFragment : Fragment() {
 
     private var _binding: FragmentRecipeBinding? = null
     private val binding get() = _binding!!
-    private  val  favoriteViewModel: FavoriteViewModel by viewModels()
+    private val favoriteAdapter : FavoriteAdapter = TODO()
+    private  val  favoriteViewModel: FavoriteViewModel = TODO()
+
+    companion object {
+        const val MEAL_ID = "com.example.easyfood.fragments.idMeal"
+        const val MEAL_NAME = "com.example.easyfood.fragments.nameMeal"
+        const val MEAL_THUMB = "com.example.easyfood.fragments.thumbMeal"
+    }
 
 
     override fun onCreateView(
@@ -43,8 +54,14 @@ class RecipeFragment : Fragment() {
            toast.view = toastView
            toast.show()
 
-          favoriteViewModel.fetchMeals()
-            favoriteViewModel.addMeal(meal = Meal(strMeal = String(), strMealThumb = String()))
+            favoriteViewModel.addMeal(title = String(), imageView = String())
+            favoriteViewModel.viewModelScope.apply {
+                binding.descTitle.text
+                binding.descimgView
+               val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerviewFavorites)
+                recyclerView.adapter = favoriteAdapter
+            }
+
 
 
         }

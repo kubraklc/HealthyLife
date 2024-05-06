@@ -61,7 +61,4 @@ data class MealList(
         val strTags: String,
         val strYoutube: String
     )
-
-
-
 }

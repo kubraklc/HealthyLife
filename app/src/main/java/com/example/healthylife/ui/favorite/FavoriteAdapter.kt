@@ -36,19 +36,16 @@ class FavoriteAdapter(
     }
 
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
-       val meal= favoritemeals[position]
-        holder.title.text = meal.strMeal
+       val meals= favoritemeals[position]
+        holder.title.text = meals.strMeal
 
         holder.itemView.setOnClickListener{
             clickListener
         }
 
-
         Glide.with(holder.itemView)
             .load(R.drawable.splashimg2)
             .into(holder.img)
-
-
 
     }
 
