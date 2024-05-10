@@ -17,8 +17,8 @@ class FavoriteAdapter(
     val clickListener: (List<Meal>) -> Unit
 ) :  RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
     class FavoriteViewHolder (itemView : View) : RecyclerView.ViewHolder(itemView){
-       val title: TextView = itemView.findViewById(R.id.favoritesText)
-       val img: ImageView = itemView.findViewById(R.id.imageFavorite)
+       val title: TextView = itemView.findViewById(R.id.favText)
+       val img: ImageView = itemView.findViewById(R.id.favImg)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
@@ -39,14 +39,19 @@ class FavoriteAdapter(
        val meals= favoritemeals[position]
         holder.title.text = meals.strMeal
 
-        holder.itemView.setOnClickListener{
-            clickListener
+        holder.itemView.setOnClickListener {
+            clickListener(favoritemeals) // Favori yemeği tıklama olayını dinleyiciye iletin
         }
 
         Glide.with(holder.itemView)
-            .load(R.drawable.splashimg2)
+            .load(R.drawable.splashimg)
             .into(holder.img)
 
+    }
+
+    fun submitList(updatedList: List<Meal>?) {
+       favoritemeals = updatedList.orEmpty()
+        notifyDataSetChanged() // Veri seti değiştiğinde RecyclerView'i güncellemek için kullanıyorum
     }
 
 }

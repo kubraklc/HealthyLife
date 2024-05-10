@@ -1,6 +1,7 @@
 package com.example.healthylife.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.example.healthylife.R
 import com.example.healthylife.databinding.FragmentRecipeBinding
 import com.example.healthylife.model.Meal
+import com.example.healthylife.model.MealList
 import com.example.healthylife.ui.favorite.FavoriteAdapter
 import com.example.healthylife.ui.favorite.FavoriteFragment
 import com.example.healthylife.ui.favorite.FavoriteViewModel
@@ -24,13 +26,12 @@ import com.example.healthylife.ui.home.HomeFragment.Companion.MEAL_INSTRUCTION
 import com.example.healthylife.ui.home.HomeFragment.Companion.MEAL_NAME
 import com.example.healthylife.ui.home.HomeFragment.Companion.MEAL_THUMB
 
-@Suppress("DEPRECATION")
 class RecipeFragment : Fragment() {
 
     private var _binding: FragmentRecipeBinding? = null
     private val binding get() = _binding!!
-    private val favoriteAdapter : FavoriteAdapter = TODO()
-    private  val  favoriteViewModel: FavoriteViewModel = TODO()
+    private val favoriteViewModel: FavoriteViewModel by viewModels()
+    private lateinit var favoriteAdapter : FavoriteAdapter
 
     companion object {
         const val MEAL_ID = "com.example.easyfood.fragments.idMeal"
@@ -54,14 +55,20 @@ class RecipeFragment : Fragment() {
            toast.view = toastView
            toast.show()
 
-            favoriteViewModel.addMeal(title = String(), imageView = String())
-            favoriteViewModel.viewModelScope.apply {
-                binding.descTitle.text
-                binding.descimgView
-               val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerviewFavorites)
-                recyclerView.adapter = favoriteAdapter
-            }
 
+
+            try {
+                // Favori yemeği ekleyip güncellenmiş listeyi alalım
+                favoriteViewModel.addMeal(title = "Yemek Başlığı", img = "drawable/splashimg.jpg")
+                    .observe(viewLifecycleOwner) { updatedList ->
+                        // Güncellenmiş listeyi almak için burada gerekli işlemleri yapabilirsiniz
+                        favoriteAdapter.submitList(updatedList)
+                    }
+
+
+            } catch (e: Exception) {
+                Log.e("Error", "addMeal fonksiyonunda hata oluştu: ${e.message}")
+            }
 
 
         }
