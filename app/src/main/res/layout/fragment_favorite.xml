@@ -34,14 +34,12 @@
                 tools:ignore="MissingConstraints" />
         </LinearLayout>
 
-
      <androidx.recyclerview.widget.RecyclerView
          android:id="@+id/recyclerviewFavorites"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          tools:listitem="@layout/fragment_favorite_item"
          android:orientation="vertical">
-
      </androidx.recyclerview.widget.RecyclerView>
 
 </FrameLayout>

@@ -1,6 +1,7 @@
 package com.example.healthylife.ui.detail
 
 import android.os.Bundle
+import android.provider.Settings.Global.putString
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -55,6 +56,22 @@ class RecipeFragment : Fragment() {
            toast.view = toastView
            toast.show()
 
+            val mealName = arguments?.getString(MEAL_NAME)
+            val mealThumb = arguments?.getString(MEAL_THUMB)
+            val bundle = Bundle().apply {
+                putString("title", mealName)
+                putString("img", mealThumb)
+            }
+
+
+            val favoriteFragment = FavoriteFragment()
+            favoriteFragment.arguments = bundle
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.frameLayout, favoriteFragment)
+                .addToBackStack(null)
+                .commit()
+
+
 
 
             try {
@@ -69,8 +86,6 @@ class RecipeFragment : Fragment() {
             } catch (e: Exception) {
                 Log.e("Error", "addMeal fonksiyonunda hata oluştu: ${e.message}")
             }
-
-
         }
        return view
     }
@@ -95,7 +110,7 @@ class RecipeFragment : Fragment() {
         mealName: String?,
         mealThumb: String?,
         mealInstruction: String?,
-        mealCategoryInfo: String?
+        mealCategoryInfo: String?,
     ) {
         if (mealId != null && mealName != null && mealThumb != null && mealInstruction != null && mealCategoryInfo != null) {
             binding.descMealId.text = "Meal ID: $mealId"

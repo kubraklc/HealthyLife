@@ -2,7 +2,6 @@ package com.example.healthylife.ui.favorite
 
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -17,8 +16,8 @@ class FavoriteAdapter(
     val clickListener: (List<Meal>) -> Unit
 ) :  RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
     class FavoriteViewHolder (itemView : View) : RecyclerView.ViewHolder(itemView){
-       val title: TextView = itemView.findViewById(R.id.favText)
-       val img: ImageView = itemView.findViewById(R.id.favImg)
+       val mealName: TextView = itemView.findViewById(R.id.favText)
+       val mealThumb: ImageView = itemView.findViewById(R.id.favImg)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
@@ -37,15 +36,15 @@ class FavoriteAdapter(
 
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
        val meals= favoritemeals[position]
-        holder.title.text = meals.strMeal
+        holder.mealName.text = meals.strMeal
 
         holder.itemView.setOnClickListener {
             clickListener(favoritemeals) // Favori yemeği tıklama olayını dinleyiciye iletin
         }
 
         Glide.with(holder.itemView)
-            .load(R.drawable.splashimg)
-            .into(holder.img)
+            .load(meals.strMealThumb)
+            .into(holder.mealThumb)
 
     }
 

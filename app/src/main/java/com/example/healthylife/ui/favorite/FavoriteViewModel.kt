@@ -1,18 +1,10 @@
 package com.example.healthylife.ui.favorite
 
 
-import android.icu.text.CaseMap.Title
-import android.util.Log
-import android.widget.ImageView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.healthylife.model.Meal
-import com.example.healthylife.model.MealList
-import com.example.healthylife.retrofit.RetrofitInstance
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.util.UUID
 
 

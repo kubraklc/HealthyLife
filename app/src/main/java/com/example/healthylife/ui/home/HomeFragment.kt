@@ -138,7 +138,7 @@ class HomeFragment : Fragment() {
   }
 
   private fun clickCategory(clickedCategory: CategoryMealList.Category) {
-
+      // Buraya category list tıklama olayı yazılacak
   }
 
   private fun preparePopularRecyclerview() {
