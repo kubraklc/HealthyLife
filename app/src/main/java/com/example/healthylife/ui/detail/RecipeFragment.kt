@@ -1,7 +1,6 @@
 package com.example.healthylife.ui.detail
 
 import android.os.Bundle
-import android.provider.Settings.Global.putString
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,21 +10,16 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.healthylife.R
 import com.example.healthylife.databinding.FragmentRecipeBinding
-import com.example.healthylife.model.Meal
-import com.example.healthylife.model.MealList
+import com.example.healthylife.model.firebasemodels.FavoriteMealFirebase
 import com.example.healthylife.ui.favorite.FavoriteAdapter
-import com.example.healthylife.ui.favorite.FavoriteFragment
 import com.example.healthylife.ui.favorite.FavoriteViewModel
 import com.example.healthylife.ui.home.HomeFragment.Companion.CATEGORY_NAME
-import com.example.healthylife.ui.home.HomeFragment.Companion.MEAL_ID
 import com.example.healthylife.ui.home.HomeFragment.Companion.MEAL_INSTRUCTION
-import com.example.healthylife.ui.home.HomeFragment.Companion.MEAL_NAME
-import com.example.healthylife.ui.home.HomeFragment.Companion.MEAL_THUMB
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class RecipeFragment : Fragment() {
 
@@ -33,12 +27,14 @@ class RecipeFragment : Fragment() {
     private val binding get() = _binding!!
     private val favoriteViewModel: FavoriteViewModel by viewModels()
     private lateinit var favoriteAdapter : FavoriteAdapter
-
+    private lateinit var databaseReference: DatabaseReference
     companion object {
         const val MEAL_ID = "com.example.easyfood.fragments.idMeal"
         const val MEAL_NAME = "com.example.easyfood.fragments.nameMeal"
         const val MEAL_THUMB = "com.example.easyfood.fragments.thumbMeal"
     }
+
+
 
 
     override fun onCreateView(
@@ -63,16 +59,12 @@ class RecipeFragment : Fragment() {
                 putString("img", mealThumb)
             }
 
-
-            val favoriteFragment = FavoriteFragment()
-            favoriteFragment.arguments = bundle
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.frameLayout, favoriteFragment)
-                .addToBackStack(null)
-                .commit()
-
-
-
+            // Firebasedeki veritabanına erişim sağlayalım
+            databaseReference = FirebaseDatabase.getInstance("https://healthylife-b03db-default-rtdb.europe-west1.firebasedatabase.app").getReference("favorites-recipes")
+            val mealModel = FavoriteMealFirebase(userId = "1", idMeal = arguments?.getString(MEAL_ID).toString(), strMealThumb = arguments?.getString(
+                MEAL_THUMB).toString(), strMeal = arguments?.getString(MEAL_NAME).toString())
+            databaseReference.child(arguments?.getString(MEAL_ID).toString()).setValue(mealModel).addOnSuccessListener {
+            }
 
             try {
                 // Favori yemeği ekleyip güncellenmiş listeyi alalım
@@ -82,14 +74,12 @@ class RecipeFragment : Fragment() {
                         favoriteAdapter.submitList(updatedList)
                     }
 
-
             } catch (e: Exception) {
                 Log.e("Error", "addMeal fonksiyonunda hata oluştu: ${e.message}")
             }
         }
        return view
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -128,56 +118,7 @@ class RecipeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }
-
-
-/*
-        mealName = _binding?.descTitle.toString()
-        val recipeHomeViewModel = ViewModelProvider(this).get(RecipeHomeViewModel::class.java)
-        recipeHomeViewModel.getRecipeMeal(mealName)
-
-        //  onYoutubeClick()
-     //   observeRecipeDetailLiveData()  // burası filter olcak sonra
-    }
-
- private fun onYoutubeClick() {
-        // YouTube linkini göster
-        binding..setOnClickListener {
-            if (!youtubeLink.isNullOrBlank()) {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(youtubeLink))
-                startActivity(intent)
-            } else {
-                // YouTube linki boşsa veya null ise kullanıcıya bir uyarı verilebilir.
-                Toast.makeText(requireContext(), "YouTube link not available", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-
-
-
-    private fun observeRecipeDetailLiveData() {
-        recipeHomeViewModel.observeRecipeDetailLiveData(mealName)
-            .observe(viewLifecycleOwner, Observer { recipeDetail ->
-                // Yemek detayları LiveData'dan alındığında yapılacak işlemler
-                updateUIWithRecipeDetail(recipeDetail)
-            })
-    }
-
-@SuppressLint("ResourceType")
-private fun updateUIWithRecipeDetail(recipeDetail: MealList.Meal) {
-binding?.apply {
-    descMealId.text = "Meal ID: ${recipeDetail.idMeal}"
-    descTitle.text = recipeDetail.strMeal
-    categoryInstruction.text = recipeDetail.strInstructions
-    categoryInfo.text = ":${recipeDetail.strCategory}"
-
-    Glide.with(this@RecipeFragment)
-        .load(recipeDetail.strMealThumb)
-        .into(descimgView)
-}
-   */
 
 
 

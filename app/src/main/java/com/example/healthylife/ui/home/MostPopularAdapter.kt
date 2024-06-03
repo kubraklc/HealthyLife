@@ -21,8 +21,6 @@ class MostPopularAdapter(
         val popularName: TextView = itemView.findViewById(R.id.mostTextView)
         val popularImage: ImageView = itemView.findViewById(R.id.mostImage)
 
-
-
         init {
             itemView.setOnClickListener {
                 val position = adapterPosition
@@ -58,8 +56,6 @@ class MostPopularAdapter(
         Glide.with(holder.itemView)
             .load(popular.strMealThumb)
             .into(holder.popularImage)
-
-
 
         // İç boşlukları ayarla
         val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams

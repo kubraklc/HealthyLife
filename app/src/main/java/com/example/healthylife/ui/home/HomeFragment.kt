@@ -3,12 +3,11 @@ package com.example.healthylife.ui.home
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,6 +19,7 @@ import com.example.healthylife.databinding.FragmentHomeBinding
 import com.example.healthylife.model.CategoryMealList
 import com.example.healthylife.model.MealList.Meal
 import com.example.healthylife.ui.detail.RecipeFragment
+import com.google.firebase.database.DatabaseReference
 
 
 class HomeFragment : Fragment() {
@@ -28,7 +28,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var adapter2 : MostPopularAdapter
-
+    private lateinit var databaseReference: DatabaseReference
 
     companion object{
         const val MEAL_ID= "com.example.easyfood.fragments.idMeal"

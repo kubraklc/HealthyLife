@@ -6,9 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.bumptech.glide.Glide
 import com.example.healthylife.databinding.FragmentFavoriteBinding
+import com.example.healthylife.model.firebasemodels.FavoriteMealFirebase
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 
 class FavoriteFragment : Fragment() {
@@ -16,6 +22,7 @@ class FavoriteFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var favoriteAdapter: FavoriteAdapter
     private  val favoriteViewModel : FavoriteViewModel by viewModels()
+    private lateinit var databaseReference: DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,14 +30,15 @@ class FavoriteFragment : Fragment() {
     ): View? {
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
 
-
         // RecyclerView'ı oluştur ve ayarla
         favoriteAdapter = FavoriteAdapter(emptyList()) { clickedMeal ->
             // Favori yemeğe tıklanma durumunda yapılacak işlemler buraya yazalım
             //  tıklanan yemeğin detaylarını göstercez ve recipe fragmentta geçicez
         }
+
         binding.recyclerviewFavorites.apply {
-            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+            binding.recyclerviewFavorites.setLayoutManager(layoutManager)
             adapter = favoriteAdapter
         }
 
@@ -39,17 +47,38 @@ class FavoriteFragment : Fragment() {
             favoriteAdapter.submitList(mealList)
         }
 
-        val mealName = arguments?.getString("title")
-        val mealThumb = arguments?.getString("img")
-        if (mealName != null && mealThumb != null) {
-            Glide.with(requireContext())
-                .load(mealThumb)
-                .into(binding.imageFavorite)
+        // Firebase üzerindeki veri tabanı instanceımızı alıyoruz favorites-recipes referansı ile beraber
+        databaseReference = FirebaseDatabase.getInstance("https://healthylife-b03db-default-rtdb.europe-west1.firebasedatabase.app").getReference("favorites-recipes")
 
-            // Verileri kullanarak ViewModel'e ekleme işlemi yapabilirsiniz
-            favoriteViewModel.addMeal(mealName, mealThumb)
-        }
+        // userId = 1 durumuna göre sorgu oluşturuyoruz ki giriş yapmış kullanıcının listesine erişebilelim
+        val query = databaseReference.orderByChild("userId").equalTo("1")
 
+        // Sorgumuzu çalıştırıyoruz
+        query.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                val recipes = mutableListOf<FavoriteMealFirebase>()
+                // çoklu halinde data döneceği için liste tipinde geliyor
+                // o yüzden foreach ile childrenları dolaşıp sorgumuzun sonucundaki datamızı alıyoruz ve recipes listesine ekliyoruz
+                for (snapshot in p0.children) {
+                    // tekli recipe datasının getirildiği yer
+                    val recipe = snapshot.getValue(FavoriteMealFirebase::class.java)
+                    recipe?.let {
+                        // recipes listesine ekleme kısmı
+                        recipes.add(it)
+                    }
+                }
+
+                // recipes listesine eklediğimiz veritabanından dönen dataları favoriteviewmodel'e ekliyoruz ki
+                // favori datamızı adapter'e bağlayıp listeleyebilelim ekranda
+                for (recipe in recipes) {
+                    favoriteViewModel.addMeal(recipe.strMeal, recipe.strMealThumb)
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
 
         favoriteViewModel.favMealList.observe(viewLifecycleOwner) { updatedList ->
             favoriteAdapter.submitList(updatedList)

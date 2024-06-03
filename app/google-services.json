@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "43939312414",
+    "firebase_url": "https://foodsave-7a145-default-rtdb.firebaseio.com",
+    "project_id": "foodsave-7a145",
+    "storage_bucket": "foodsave-7a145.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:43939312414:android:165d3834f02b81646acf0f",
+        "android_client_info": {
+          "package_name": "com.example.healthylife.activity"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIOC7rbRXbwCeEj33UxarvJ_shQg2sjyk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:43939312414:android:1119c8a0eed2ea9b6acf0f",
+        "android_client_info": {
+          "package_name": "com.example.saglklyasam"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIOC7rbRXbwCeEj33UxarvJ_shQg2sjyk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
