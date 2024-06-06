@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.healthylife.model.Meal
-import java.util.UUID
 
 
 class FavoriteViewModel : ViewModel() {
@@ -13,12 +12,12 @@ class FavoriteViewModel : ViewModel() {
     val favMealList: LiveData<List<Meal>> = _favMealList
 
     // Favori yemekleri listeye ekleyelim ve güncellenmiş listeyi döndürelim
-    fun addMeal(title: String, img: String): LiveData<List<Meal>> {
+    fun addMeal(id: String, title: String, img: String): LiveData<List<Meal>> {
         val currentList = _favMealList.value.orEmpty().toMutableList()
 
         // Yeni yemek ögesi
         val newList = Meal(
-            idMeal = UUID.randomUUID().toString(),
+            idMeal = id,
             strMeal = title,
             strMealThumb = img
         )
@@ -28,6 +27,13 @@ class FavoriteViewModel : ViewModel() {
         _favMealList.value = currentList
         // Güncellenmiş listeyi geri döndürelim
         return _favMealList
+    }
+
+    // Favori yemekleri listeden siliyoruz
+    fun removeMeal(meal: Meal){
+        val currentList = _favMealList.value.orEmpty().toMutableList()
+        currentList.remove(meal)
+        _favMealList.value = currentList
     }
 }
 

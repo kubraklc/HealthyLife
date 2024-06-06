@@ -12,47 +12,53 @@
         android:layout_height="wrap_content"
         android:background="@color/bottom_background_color">
 
-        <TextView
-            android:id="@+id/allRecipesText"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/homePage"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:fontFamily="@font/opensans_semibold"
-            android:text="All Recipes"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:background="@drawable/page_backgorund"
+            android:orientation="vertical"
+            tools:ignore="MissingConstraints">
 
-        <SearchView
-            android:id="@+id/searchView"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="12dp"
-            android:background="@drawable/searchview_background"
-            android:queryBackground="@android:color/transparent"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/allRecipesText"
-            app:searchIcon="@drawable/ic_search" />
+            <TextView
+                android:id="@+id/allRecipesText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:fontFamily="@font/opensans_semibold"
+                android:text="All Recipes"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <SearchView
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/searchview_background"
+                android:queryBackground="@android:color/transparent"
+                android:textSize="12sp"
+                app:searchIcon="@drawable/ic_search" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/categoriesText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="12dp"
             android:fontFamily="@font/opensans_semibold"
             android:text="Categories"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/searchView"
-            app:layout_constraintTop_toBottomOf="@+id/searchView" />
+            app:layout_constraintStart_toStartOf="@+id/homePage"
+            app:layout_constraintTop_toBottomOf="@+id/homePage" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/categoryCardView"
@@ -84,13 +90,14 @@
             android:id="@+id/randomlyShownText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/opensans_semibold"
             android:text="Randomly Shown Recipes"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/searchView"
+            app:layout_constraintStart_toStartOf="@+id/homePage"
             app:layout_constraintTop_toBottomOf="@+id/categoryCardView" />
 
         <androidx.cardview.widget.CardView
@@ -127,11 +134,12 @@
             android:id="@+id/mostPopular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/opensans_semibold"
             android:text="Most Popular French Meal"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/randomlyShownText"
             app:layout_constraintTop_toBottomOf="@id/randomRecipeCardView"

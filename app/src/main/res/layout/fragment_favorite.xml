@@ -29,10 +29,10 @@
 
             <ImageView
                 android:id="@+id/imageFavorite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_favorite_border"
+                android:src="@drawable/ic_favorite"
                 tools:ignore="MissingConstraints" />
         </LinearLayout>
 
@@ -40,6 +40,7 @@
          android:id="@+id/recyclerviewFavorites"
          android:layout_width="match_parent"
          android:layout_height="match_parent"
+         android:layout_margin="8dp"
          android:layout_below="@+id/favorite_container"
          tools:listitem="@layout/fragment_favorite_item"
          android:orientation="vertical">

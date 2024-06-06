@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.healthylife.databinding.FragmentFavoriteBinding
+import com.example.healthylife.model.Meal
 import com.example.healthylife.model.firebasemodels.FavoriteMealFirebase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -31,10 +33,18 @@ class FavoriteFragment : Fragment() {
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
 
         // RecyclerView'ı oluştur ve ayarla
-        favoriteAdapter = FavoriteAdapter(emptyList()) { clickedMeal ->
-            // Favori yemeğe tıklanma durumunda yapılacak işlemler buraya yazalım
-            //  tıklanan yemeğin detaylarını göstercez ve recipe fragmentta geçicez
-        }
+        favoriteAdapter = FavoriteAdapter(
+            emptyList(),
+            clickListener = { meals ->
+                // Favori yemeğe tıklanma durumu
+                // tıklanan yemeğin detaylarını göstermek ve recipe fragmentına geçmek için işlemler
+            },
+             requireContext(),
+            deleteListener = { meal ->
+                deleteFavoriteMeal(meal, databaseReference)
+
+            }
+        )
 
         binding.recyclerviewFavorites.apply {
             layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
@@ -71,7 +81,7 @@ class FavoriteFragment : Fragment() {
                 // recipes listesine eklediğimiz veritabanından dönen dataları favoriteviewmodel'e ekliyoruz ki
                 // favori datamızı adapter'e bağlayıp listeleyebilelim ekranda
                 for (recipe in recipes) {
-                    favoriteViewModel.addMeal(recipe.strMeal, recipe.strMealThumb)
+                    favoriteViewModel.addMeal(recipe.idMeal, recipe.strMeal, recipe.strMealThumb)
                 }
             }
 
@@ -83,12 +93,33 @@ class FavoriteFragment : Fragment() {
         favoriteViewModel.favMealList.observe(viewLifecycleOwner) { updatedList ->
             favoriteAdapter.submitList(updatedList)
         }
-
         return binding.root
     }
+
+    private fun deleteFavoriteMeal(meal: Meal, reference: DatabaseReference){
+        val mealId = meal.idMeal
+        val itemReference = reference.child(mealId)
+        itemReference.removeValue()
+            .addOnSuccessListener {
+                // Favori yemek listesinden kaldır
+                favoriteViewModel.removeMeal(meal)
+                Toast.makeText(context, "Yemek Silindi", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(requireContext(), "Silme işlemi başarısız oldu", Toast.LENGTH_SHORT).show()
+            }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 }
+
+
+
+
+
+
+

@@ -68,7 +68,7 @@ class RecipeFragment : Fragment() {
 
             try {
                 // Favori yemeği ekleyip güncellenmiş listeyi alalım
-                favoriteViewModel.addMeal(title = "Yemek Başlığı", img = "drawable/splashimg.jpg")
+                favoriteViewModel.addMeal(id = MEAL_ID, title = "Yemek Başlığı", img = "drawable/splashimg.jpg")
                     .observe(viewLifecycleOwner) { updatedList ->
                         // Güncellenmiş listeyi almak için burada gerekli işlemleri yapabilirsiniz
                         favoriteAdapter.submitList(updatedList)
