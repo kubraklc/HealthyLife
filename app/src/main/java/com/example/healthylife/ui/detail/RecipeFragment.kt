@@ -1,10 +1,13 @@
 package com.example.healthylife.ui.detail
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -28,14 +31,14 @@ class RecipeFragment : Fragment() {
     private val favoriteViewModel: FavoriteViewModel by viewModels()
     private lateinit var favoriteAdapter : FavoriteAdapter
     private lateinit var databaseReference: DatabaseReference
+    private lateinit var imageYoutube: ImageButton
     companion object {
         const val MEAL_ID = "com.example.easyfood.fragments.idMeal"
         const val MEAL_NAME = "com.example.easyfood.fragments.nameMeal"
         const val MEAL_THUMB = "com.example.easyfood.fragments.thumbMeal"
+        const val MEAL_LINK = "com.example.easyfood.fragments.mealLink"
+
     }
-
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,6 +57,7 @@ class RecipeFragment : Fragment() {
 
             val mealName = arguments?.getString(MEAL_NAME)
             val mealThumb = arguments?.getString(MEAL_THUMB)
+            val mealLink = arguments?.getString(MEAL_LINK)
             val bundle = Bundle().apply {
                 putString("title", mealName)
                 putString("img", mealThumb)
@@ -62,9 +66,16 @@ class RecipeFragment : Fragment() {
             // Firebasedeki veritabanına erişim sağlayalım
             databaseReference = FirebaseDatabase.getInstance("https://healthylife-b03db-default-rtdb.europe-west1.firebasedatabase.app").getReference("favorites-recipes")
             val mealModel = FavoriteMealFirebase(userId = "1", idMeal = arguments?.getString(MEAL_ID).toString(), strMealThumb = arguments?.getString(
-                MEAL_THUMB).toString(), strMeal = arguments?.getString(MEAL_NAME).toString())
+                MEAL_THUMB).toString(), strMeal = arguments?.getString(MEAL_NAME).toString(), strYoutube = arguments?.getString(MEAL_LINK).toString())
             databaseReference.child(arguments?.getString(MEAL_ID).toString()).setValue(mealModel).addOnSuccessListener {
             }
+            databaseReference = FirebaseDatabase.getInstance().getReference("recipes")
+            imageYoutube = view?.findViewById<ImageButton>(R.id.imageYoutube)!!
+            imageYoutube.setOnClickListener {
+                openYoutube()
+            }
+
+
 
             try {
                 // Favori yemeği ekleyip güncellenmiş listeyi alalım
@@ -79,6 +90,26 @@ class RecipeFragment : Fragment() {
             }
         }
        return view
+    }
+
+    private fun openYoutube() {
+       val favMeal = id
+       databaseReference.child(id.toString()).child("youtubeUrl").get()
+           .addOnSuccessListener { snapshot ->
+               val youtubeUrl = snapshot.getValue(String::class.java)
+               if (!youtubeUrl.isNullOrEmpty()){
+                   val intent = Intent(Intent.ACTION_VIEW, Uri.parse(youtubeUrl))
+                   if (intent.resolveActivity(requireActivity().packageManager) != null) {
+                       startActivity(intent)
+                   }else{
+
+                   }
+               }
+           }
+           .addOnSuccessListener {
+
+           }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -113,6 +144,8 @@ class RecipeFragment : Fragment() {
                 .into(binding.descimgView)
         }
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

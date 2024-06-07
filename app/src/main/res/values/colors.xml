@@ -9,8 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     
     // Bottom navigation bar renk düzenlemeleri
-    <color name="bottom_icon_color">#CB031B</color>
-    <color name="bottom_icon_text">#686C69</color>
+    <color name="bottom_icon_color">#ffff</color>
+    <color name="bottom_icon_text">#ffffff</color>
     <color name="customButtonColor">#CB031B</color>
     <color name="bottom_background_color">#DEDDDD</color>
 
