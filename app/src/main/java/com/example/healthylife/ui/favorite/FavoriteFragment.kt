@@ -1,6 +1,7 @@
 package com.example.healthylife.ui.favorite
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -86,7 +87,8 @@ class FavoriteFragment : Fragment() {
             }
 
             override fun onCancelled(p0: DatabaseError) {
-                TODO("Not yet implemented")
+
+                Log.e("FavoriteFragment", "Database error: ${p0.message}")
             }
         })
 

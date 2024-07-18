@@ -1,15 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splashimg"
+    android:background="@color/bottom_background_color"
     tools:context=".fragment.ProfileFragment"
     tools:visibility="visible">
 
+    <LinearLayout
+        android:id="@+id/profile_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginBottom="167dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/usernameChange"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/profileText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:fontFamily="@font/opensans_semibold"
+            android:text="Profile"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/etkname"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/loginregister_background"
+        android:drawableStart="@drawable/ic_person"
+        android:ems="10"
+        android:hint="Kullanıcı adını değiştir"
+        android:inputType="textPersonName"
+        android:padding="6dp"
+        android:src="@drawable/ic_person"
+        android:textColor="@color/black"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/usernameChange"
+        app:layout_constraintEnd_toEndOf="@+id/profile_container"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="@+id/profile_container"
+        app:layout_constraintTop_toBottomOf="@+id/profile_container"
+        tools:ignore="MissingConstraints" />
+
     <TextView
+        android:id="@+id/usernameChange"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="72dp"
+        android:layout_marginBottom="504dp"
+        android:clickable="true"
+        android:gravity="end"
+        android:text="Değiştir"
+        android:textColor="#DA0C0C"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintHorizontal_weight="1"
+
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/etkpassword"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/loginregister_background"
+        android:drawableStart="@drawable/ic_person"
+        android:ems="10"
+        android:hint="Eski Şifre"
+        android:inputType="textPersonName"
+        android:padding="6dp"
+        android:src="@drawable/ic_email"
+        android:textColor="@color/black"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/etkname"
+        app:layout_constraintStart_toStartOf="@+id/etkname"
+        app:layout_constraintTop_toBottomOf="@+id/etkname"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/etkpasswordnew"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/loginregister_background"
+        android:drawableStart="@drawable/ic_person"
+        android:ems="10"
+        android:hint="Yeni Şifre"
+        android:inputType="textPersonName"
+        android:padding="6dp"
+        android:src="@drawable/ic_email"
+        android:textColor="@color/black"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/etkpassword"
+        app:layout_constraintStart_toStartOf="@+id/etkpassword"
+        app:layout_constraintTop_toBottomOf="@+id/etkpassword"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/etkpasswordnewconfirm"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/loginregister_background"
+        android:drawableStart="@drawable/ic_person"
+        android:ems="10"
+        android:hint="Yeni Şifre"
+        android:inputType="textPersonName"
+        android:padding="6dp"
+        android:src="@drawable/ic_email"
+        android:textColor="@color/black"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/etkname"
+        app:layout_constraintStart_toStartOf="@+id/etkname"
+        app:layout_constraintTop_toBottomOf="@+id/etkpasswordnew"
+        tools:ignore="MissingConstraints" />
+
+
+    <TextView
+        android:id="@+id/passwordChange"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="72dp"
+        android:clickable="true"
+        android:gravity="end"
+        android:text="Değiştir"
+        android:textColor="#DA0C0C"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="@+id/etkpasswordnewconfirm"
+        app:layout_constraintTop_toBottomOf="@+id/etkpasswordnewconfirm"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/buttonLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="profileeeee Fragment" />
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:gravity="bottom|center"
+        android:backgroundTint="@color/bottom_background_color"
+        android:showText="true"
+        android:text="Çıkış yap"
+        android:textAlignment="center"
+        android:textColor="#DA0C0C"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/passwordChange"
+        app:layout_constraintHorizontal_bias="0.725"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/passwordChange"
+        app:layout_constraintTop_toBottomOf="@+id/passwordChange"
+        app:layout_constraintVertical_bias="0.602"
+        tools:ignore="MissingConstraints"></Button>
 
-</FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
